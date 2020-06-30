@@ -1,0 +1,4 @@
+---
+
+- name: Restart Nginx
+  serviec: name=nginx state=restarted
