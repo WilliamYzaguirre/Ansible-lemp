@@ -8,8 +8,8 @@
 
 - name: Edit and Backup Nginx Config
   copy: 
-     src: "{{ role_path }}/files/nginxconf"
+     src: roles/nginx/files/nginx.conf
      dest: /etc/nginx/nginx.conf
-     mode: 0644
+     mode: '0644'
      backup: yes
   notify: Restart Nginx

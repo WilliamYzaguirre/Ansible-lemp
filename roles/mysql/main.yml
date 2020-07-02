@@ -1,0 +1,9 @@
+---
+
+- name: Install MySQL on Debian
+  apt:
+     name: mysql-server
+     state: latest
+     update_cache: yes
+
+- name: 

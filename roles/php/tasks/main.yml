@@ -1,0 +1,54 @@
+---
+
+- name: Install php-mysql and php-fpm
+  apt: 
+     name: {{ item }} 
+     state: latest 
+     update_cache: yes
+  with_items:
+    - php-mysql
+    - php-fpm
+
+- name: Install php Extensions for WordPress (php-json, php-xmlrpc, php-curl, php-gd, php-xml, php-mbstring)
+  apt: 
+     name: {{ item }} 
+     state: latest 
+     update_cache: yes
+  with_items:
+    - php-json
+    - php-xmlrpc
+    - php-curl
+    - php-gd
+    - php-xml
+    - php-mbstring
+
+- name: Start and Enable php
+  service: "name=php{{ php_version }}-fpm enabled=yes state=started"
+
+- name: Ensure Directory for php-fpm Socket Exists
+  file:
+     path: /var/run/php-fpm
+     state: directory
+     mode: '0644'
+
+- name: Edit and Backup php-fpm conf
+  copy:
+     src: /roles/php/files/php_fpm.conf
+     dest: "/etc/php/{{ php_version }}/fpm/php-fpm.conf"
+     mode: '0644'
+     backup: yes 
+
+- name: Edit and Backup php-fpm pool conf
+  copy:
+     src: /roles/php/files/pool.conf
+     dest: "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+     mode: '0644'
+     backup: yes
+
+- name: Edit and Backup php.ini
+  copy:
+     src: /roles/php/files/php.ini
+     dest: "/etc/php/{{ php_version}}/fpm/php.ini"
+     mode: '0644'
+     backup: yes
+  notify: Restart Php
