@@ -6,8 +6,18 @@
      - vim
      - tmux
      - zsh
+     - git
 
 - name: Change Shell to Z-Shell
   user: 
      name: {{ ansible_user_id }}
      shell: /bin/zsh
+
+- name: Clone oh-my-zsh
+  command: 'wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh'
+
+- name: Create new Configuration for zsh
+  command: 'cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc'
+
+- name: Run Source Command to Enable oh-my-zsh
+  command: 'source ~/.zshrc'
